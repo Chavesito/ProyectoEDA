@@ -11,17 +11,18 @@ package ProyectoEDA;
  */
 public class ProyectoEDA {
     public static void main(String[] args){
-      Cola procesos = new Cola();
+        Lista lista = new Lista();
+        lista.agregarAlFinal(new Proceso("P1", 5));
+        lista.agregarAlFinal(new Proceso("P2", 3));
+        lista.agregarAlFinal(new Proceso("P3", 7));
 
-        // Agrega algunos procesos a la cola
-        procesos.encolar(new Proceso("P1", 5));
-        procesos.encolar(new Proceso("P2", 3));
-        procesos.encolar(new Proceso("P3", 2));
-        procesos.encolar(new Proceso("P4", 7));
+        Proceso procesoMenorTiempo = lista.buscarProcesoMenorTiempoRestante();
 
-        int quantum = 3; // Tamaño del quantum
-
-        ejecutarRoundRobin(procesos, quantum);
+        if (procesoMenorTiempo != null) {
+            System.out.println("Proceso con menor tiempo restante: " + procesoMenorTiempo);
+        } else {
+            System.out.println("La lista está vacía.");
+        }
     }
 
     public static void ejecutarRoundRobin(Cola procesos, int quantum) {
@@ -39,5 +40,9 @@ public class ProyectoEDA {
                 System.out.println(procesoActual.getNombre() + " ha terminado su ejecución.");
             }
         }
+    }
+    
+    public static void ejecutarSJF(Cola procesos){
+       
     }
 }

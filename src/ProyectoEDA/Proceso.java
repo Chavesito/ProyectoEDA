@@ -29,4 +29,9 @@ public class Proceso {
     public void disminuirTiempoRestante(int tiempo) {
         this.tiempoRestante -= tiempo;
     }
+    
+    @Override
+    public String toString() {
+        return "Proceso{nombre='" + nombre + "', tiempoRestante=" + tiempoRestante + "}";
+    }
 }
