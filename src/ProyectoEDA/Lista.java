@@ -104,7 +104,7 @@ public class Lista {
         Proceso procesoMenorTiempo = actual.getProceso();
 
         while (actual != null) {
-            if (actual.getProceso().getTiempoRestante() < procesoMenorTiempo.getTiempoRestante() || actual.getProceso().getTiempoLlegada()<= tiempo) {
+            if (actual.getProceso().getTiempoRestante() < procesoMenorTiempo.getTiempoRestante() && actual.getProceso().getTiempoLlegada()<= tiempo) {
                 procesoMenorTiempo = actual.getProceso();
             }
             actual = actual.getSiguiente();

@@ -34,14 +34,21 @@ public class Main {
     
     public static void ejecutarSJF(Lista lista){
         int tiempo = 0;
-        while(!lista.estaVacia()){
+        while (!lista.estaVacia()) {
             Proceso procesoActual = lista.buscarProcesoMenorTiempoRestante(tiempo);
-            if(procesoActual.getTiempoLlegada()<= tiempo){
-                if(procesoActual.getTiempoRestante()!= 0){
+
+            // Verificar si el proceso ha llegado antes de continuar
+            if (procesoActual.getTiempoLlegada() <= tiempo) {
+                if (procesoActual.getTiempoRestante() != 0) {
                     procesoActual.disminuirTiempoRestante(1);
-                }else{
+                    System.out.println("Ejecutando " + procesoActual.getNombre() + " en el tiempo " + tiempo+"tiempo restante:" +procesoActual.getTiempoRestante());
+                    tiempo++;
+                } else {
                     lista.eliminarProceso(procesoActual.getNombre());
                 }
+            } else {
+                System.out.println("No hay proceso a ejecutar en el tiempo " + tiempo + "tiempo restante:" +procesoActual.getTiempoRestante());
+                tiempo++;
             }
         }
     }

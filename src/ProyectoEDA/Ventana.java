@@ -13,12 +13,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana extends javax.swing.JFrame {
     DefaultTableModel modelo;
-    
+    Lista base = new Lista();
     
     /**
      * Creates new form Ventana
      */
     public Ventana() {
+        
         initComponents();
         
         modelo =new DefaultTableModel();
@@ -249,7 +250,7 @@ public class Ventana extends javax.swing.JFrame {
         }
         else if("ShortestJobFirst".equals(seleccion))
         {
-            System.out.println("Algoritmo ShortestJobFirst Seleccionado");
+            Main.ejecutarSJF(base);
         }
         
         
@@ -261,15 +262,30 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_SimulacionActionPerformed
 
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
-        String []info=new String[5];
+        String []info=new String[4];
         info[0]=NomProces.getText();
         info[1]=TE.getText();
         info[2]=TL.getText();
-        info[3]=NomProces.getText();
-        info[4]=NomProces.getText();
-        modelo.addRow(info);
+        try {
+            // Intentar convertir los tiempos a enteros
+            int tiempoEjecucion = Integer.parseInt(info[1]);
+            int tiempoLlegada = Integer.parseInt(info[2]);
 
+            // Crear una instancia de Proceso con los datos proporcionados
+            Proceso proceso = new Proceso(info[0], tiempoEjecucion, tiempoLlegada);
 
+            // Agregar el proceso a tu lista (suponiendo que "base" es una instancia de la clase Lista)
+            base.agregarAlFinal(proceso);
+
+            // Asumiendo que "modelo" es un DefaultTableModel, agregar la fila a la tabla
+            modelo.addRow(info);
+        } catch (NumberFormatException e) {
+            // Manejar error si los campos no contienen valores numéricos
+            System.out.println("Error: Los campos de tiempo deben ser números enteros.");
+        }
+        NomProces.setText("");
+        TE.setText("");
+        TL.setText("");
 
         // TODO add your handling code here:
     }//GEN-LAST:event_AgregarActionPerformed
@@ -280,7 +296,6 @@ public class Ventana extends javax.swing.JFrame {
     public static void main(String args[]) 
     {
         //Codigo para abrir la ventana grafica
-        
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
