@@ -62,6 +62,16 @@ public class Lista {
             actual = actual.getSiguiente();
         }
     }
+    
+    public Cola Encolar(){
+        Nodo actual = cabeza;
+        Cola Procesos = new Cola();
+        while (actual != null) {
+            Procesos.encolar(actual.getProceso());
+            actual = actual.getSiguiente();
+        }
+        return Procesos;
+    }
     public void ordenarPorTiempoLlegada() {
         boolean intercambiado;
         do {

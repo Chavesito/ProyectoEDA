@@ -246,7 +246,8 @@ public class Ventana extends javax.swing.JFrame {
         String seleccion = (String) Algoritmos.getSelectedItem();
         if("RoundRobin".equals(seleccion))
         {
-            System.out.println("Algoritmo RoundRobin Seleccionado");
+            
+            Main.ejecutarRoundRobin(base.Encolar(), 3);
         }
         else if("ShortestJobFirst".equals(seleccion))
         {
