@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProyectoEDA;
+package paquete.proyecto;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class Ventana extends javax.swing.JFrame {
-
+    DefaultTableModel modelo;
     
     
     /**
@@ -21,13 +21,17 @@ public class Ventana extends javax.swing.JFrame {
     public Ventana() {
         initComponents();
         
+        modelo =new DefaultTableModel();
+        modelo.addColumn("Proceso");
+        modelo.addColumn("Tiempo de ejecución");
+        modelo.addColumn("Tiempo de llegada");
+        modelo.addColumn("Tiempo de comienzo");
+        modelo.addColumn("Tiempo de finalización");
+        this.TInfo.setModel(modelo);
+        this.setLocationRelativeTo(null);
         
         
-        
-        
-        //Agregamos los botones al grupo
-        grupo_botones.add(RR); //primer boton agregado
-        grupo_botones.add(SJF); //segundo
+       
         setTitle("Trabajo EDA"); //Título de la ventana
         setLocationRelativeTo(null); //Spawn de la ventana grafica al medio
         setDefaultCloseOperation(EXIT_ON_CLOSE); //dejar de ejecutar al cerrar la ventana
@@ -46,10 +50,8 @@ public class Ventana extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        logoUL = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        RR = new javax.swing.JRadioButton();
-        SJF = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         NomProces = new javax.swing.JTextField();
@@ -57,11 +59,10 @@ public class Ventana extends javax.swing.JFrame {
         TE = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         TL = new javax.swing.JTextField();
-        logoUL = new javax.swing.JLabel();
-        Ejecutar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TInfo = new javax.swing.JTable();
+        Algoritmos = new javax.swing.JComboBox<>();
+        Agregar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,23 +72,9 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel3.setText("Proyecto Estructuras de Datos y Algoritmos");
 
+        logoUL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen1/UL.png"))); // NOI18N
+
         jLabel4.setText("Sistema simulador de planificación de procesos");
-
-        jLabel5.setText("Seleccione el tipo de simulación a utilizar");
-
-        RR.setText("Round-Robin");
-        RR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RRActionPerformed(evt);
-            }
-        });
-
-        SJF.setText("ShortestJobFirst");
-        SJF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SJFActionPerformed(evt);
-            }
-        });
 
         jLabel6.setText("Ingresar:");
 
@@ -109,29 +96,32 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        logoUL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen1/UL.png"))); // NOI18N
+        TInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(TInfo);
 
-        Ejecutar.setText("Ejecutar por RR");
-        Ejecutar.addActionListener(new java.awt.event.ActionListener() {
+        Algoritmos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RoundRobin", "ShortestJobFirst" }));
+        Algoritmos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EjecutarActionPerformed(evt);
+                AlgoritmosActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Proceso", "Tiempo de ejecución", "Tiempo de llegada", "Tiempo de comienzo", "TTiempo de finalización"
+        Agregar1.setText("Iniciar Simulación");
+        Agregar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Agregar1ActionPerformed(evt);
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jButton1.setText("Ejecutar por SJF");
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,14 +132,26 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(457, 457, 457))
             .addGroup(layout.createSequentialGroup()
-                .addGap(408, 408, 408)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SJF)
-                            .addComponent(RR)
+                        .addGap(408, 408, 408)
+                        .addComponent(logoUL))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(250, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Algoritmos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(89, 89, 89)
+                            .addComponent(Agregar1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(197, 197, 197))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
@@ -160,31 +162,17 @@ public class Ventana extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(NomProces)
                                         .addComponent(TL, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(TE, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Ejecutar)
-                                    .addComponent(jLabel8))
-                                .addGap(58, 58, 58)
-                                .addComponent(jButton1)
-                                .addGap(66, 66, 66))))
-                    .addComponent(logoUL))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(179, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(486, 486, 486))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(516, 516, 516))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(465, 465, 465))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(113, 113, 113))))
+                                    .addComponent(TE, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(486, 486, 486))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(465, 465, 465))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(516, 516, 516)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,13 +187,9 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(logoUL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(RR)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SJF)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
+                .addComponent(Algoritmos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -219,54 +203,55 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Ejecutar)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addComponent(Agregar1)
+                .addGap(77, 77, 77)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SJFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SJFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SJFActionPerformed
-
     private void TLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TLActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TLActionPerformed
-
-    private void EjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarActionPerformed
-        //Codigo del botón ejecutar
-        String NProceso;
-        int TEjecucion, TLlegada;
-        NProceso = NomProces.getText();
-        TEjecucion = Integer.parseInt(TE.getText());
-        TLlegada = Integer.parseInt(TL.getText());
-        Cola procesos = null;
-        int quantum = 20;
-        Main P = new Main(procesos, quantum);
-        
-        
-        
-        
-        
-        
-        
-        
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EjecutarActionPerformed
 
     private void NomProcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomProcesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NomProcesActionPerformed
 
-    private void RRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RRActionPerformed
+    private void AlgoritmosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlgoritmosActionPerformed
+        
+
+
         // TODO add your handling code here:
-    }//GEN-LAST:event_RRActionPerformed
+    }//GEN-LAST:event_AlgoritmosActionPerformed
+
+    private void Agregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agregar1ActionPerformed
+        String seleccion = (String) Algoritmos.getSelectedItem();
+        if("RoundRobin".equals(seleccion))
+        {
+            System.out.println("Algoritmo RoundRobin Seleccionado");
+        }
+        else if("ShortestJobFirst".equals(seleccion))
+        {
+            System.out.println("Algoritmo ShortestJobFirst Seleccionado");
+        }
+        
+        
+        String []info=new String[5];
+        info[0]=NomProces.getText();
+        info[1]=TE.getText();
+        info[2]=TL.getText();
+        info[3]=NomProces.getText();
+        info[4]=NomProces.getText();
+        modelo.addRow(info);
+        
+        
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Agregar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,7 +282,6 @@ public class Ventana extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Ventana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -356,25 +340,22 @@ public class Ventana extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ejecutar;
+    private javax.swing.JButton Agregar1;
+    private javax.swing.JComboBox<String> Algoritmos;
     private javax.swing.JTextField NomProces;
-    private javax.swing.JRadioButton RR;
-    private javax.swing.JRadioButton SJF;
     private javax.swing.JTextField TE;
+    private javax.swing.JTable TInfo;
     private javax.swing.JTextField TL;
     private javax.swing.ButtonGroup grupo_botones;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel logoUL;
     // End of variables declaration//GEN-END:variables
 }
