@@ -247,7 +247,7 @@ public class Ventana extends javax.swing.JFrame {
         TLlegada = Integer.parseInt(TL.getText());
         Cola procesos = null;
         int quantum = 20;
-        RoundRobin P = new RoundRobin(procesos, quantum);
+        Main P = new Main(procesos, quantum);
         
         
         
