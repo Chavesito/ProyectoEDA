@@ -10,21 +10,6 @@ package ProyectoEDA;
  * @author leo-f
  */
 public class Main {
-    public  void main(String[] args){
-        Lista lista = new Lista();
-        lista.agregarAlFinal(new Proceso("P1", 5,0));
-        lista.agregarAlFinal(new Proceso("P2", 3,1));
-        lista.agregarAlFinal(new Proceso("P3", 7,2));
-
-        Proceso procesoMenorTiempo = lista.buscarProcesoMenorTiempoRestante();
-
-        if (procesoMenorTiempo != null) {
-            System.out.println("Proceso con menor tiempo restante: " + procesoMenorTiempo);
-        } else {
-            System.out.println("La lista está vacía.");
-        }
-    }
-
     public void ejecutarRoundRobin(Cola procesos, int quantum) {
         int i =0;
         while (!procesos.estaVacia()) {
@@ -47,7 +32,17 @@ public class Main {
         }
     }
     
-    public static void ejecutarSJF(Cola procesos){
-        
+    public static void ejecutarSJF(Lista lista){
+        int tiempo = 0;
+        while(!lista.estaVacia()){
+            Proceso procesoActual = lista.buscarProcesoMenorTiempoRestante(tiempo);
+            if(procesoActual.getTiempoLlegada()<= tiempo){
+                if(procesoActual.getTiempoRestante()!= 0){
+                    procesoActual.disminuirTiempoRestante(1);
+                }else{
+                    lista.eliminarProceso(procesoActual.getNombre());
+                }
+            }
+        }
     }
 }

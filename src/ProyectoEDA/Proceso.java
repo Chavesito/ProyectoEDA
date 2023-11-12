@@ -12,14 +12,20 @@ package ProyectoEDA;
 public class Proceso {
     private String nombre;
     private int tiempoRestante;
+    private int tiempoLlegada;
 
-    public Proceso(String nombre, int tiempoRestante) {
+    public Proceso(String nombre, int tiempoRestante, int tiempoLlegada) {
         this.nombre = nombre;
         this.tiempoRestante = tiempoRestante;
+        this.tiempoLlegada = tiempoLlegada;
     }
 
     public String getNombre() {
         return nombre;
+    }
+
+    public int getTiempoLlegada() {
+        return tiempoLlegada;
     }
 
     public int getTiempoRestante() {

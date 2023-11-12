@@ -33,6 +33,27 @@ public class Lista {
             actual.setSiguiente(nuevoNodo);
         }
     }
+      public void eliminarProceso(String nombreProceso) {
+        Nodo actual = cabeza;
+        Nodo anterior = null;
+
+        // Buscar el nodo a eliminar
+        while (actual != null && !actual.getProceso().getNombre().equals(nombreProceso)) {
+            anterior = actual;
+            actual = actual.getSiguiente();
+        }
+
+        // Si se encontró el nodo, eliminarlo
+        if (actual != null) {
+            // Si es el primer nodo de la lista
+            if (anterior == null) {
+                cabeza = actual.getSiguiente();
+            } else {
+                anterior.setSiguiente(actual.getSiguiente());
+            }
+        }
+        // No se imprime ningún mensaje, simplemente se elimina el proceso
+    }
 
     public void mostrarLista() {
         Nodo actual = cabeza;
@@ -40,6 +61,27 @@ public class Lista {
             System.out.println(actual.getProceso().toString());
             actual = actual.getSiguiente();
         }
+    }
+    public void ordenarPorTiempoLlegada() {
+        boolean intercambiado;
+        do {
+            intercambiado = false;
+            Nodo actual = cabeza;
+            Nodo siguiente = cabeza.getSiguiente();
+
+            while (siguiente != null) {
+                if (actual.getProceso().getTiempoLlegada() > siguiente.getProceso().getTiempoLlegada()) {
+                    // Intercambiar los nodos
+                    Proceso temp = actual.getProceso();
+                    actual.setProceso(siguiente.getProceso());
+                    siguiente.setProceso(temp);
+
+                    intercambiado = true;
+                }
+                actual = siguiente;
+                siguiente = siguiente.getSiguiente();
+            }
+        } while (intercambiado);
     }
     
     public Nodo buscar(String nombreProceso) {
@@ -53,7 +95,7 @@ public class Lista {
         return null; // Si no se encuentra el proceso con el nombre dado
     }
     
-    public Proceso buscarProcesoMenorTiempoRestante() {
+    public Proceso buscarProcesoMenorTiempoRestante(int tiempo) {
         if (estaVacia()) {
             return null; // Retorna null si la lista está vacía
         }
@@ -62,7 +104,7 @@ public class Lista {
         Proceso procesoMenorTiempo = actual.getProceso();
 
         while (actual != null) {
-            if (actual.getProceso().getTiempoRestante() < procesoMenorTiempo.getTiempoRestante()) {
+            if (actual.getProceso().getTiempoRestante() < procesoMenorTiempo.getTiempoRestante() || actual.getProceso().getTiempoLlegada()<= tiempo) {
                 procesoMenorTiempo = actual.getProceso();
             }
             actual = actual.getSiguiente();
