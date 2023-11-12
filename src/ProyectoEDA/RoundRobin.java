@@ -9,7 +9,7 @@ package ProyectoEDA;
  *
  * @author leo-f
  */
-public class ProyectoEDA {
+public class RoundRobin {
     public static void main(String[] args){
         Lista lista = new Lista();
         lista.agregarAlFinal(new Proceso("P1", 5));
