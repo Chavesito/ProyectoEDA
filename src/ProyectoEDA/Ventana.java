@@ -277,11 +277,11 @@ public class Ventana extends javax.swing.JFrame {
     private void SimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulacionActionPerformed
         String seleccion = (String) Algoritmos.getSelectedItem();
         JTextArea outputTextArea = new JTextArea();
-        
+        int Quantum = Integer.parseInt(CQuantum.getText());
         if("RoundRobin".equals(seleccion))
         {
             base.ordenarPorTiempoLlegada();
-            Lista muestra = Main.ejecutarRoundRobin(base.Encolar(), 3,outputTextArea);
+            Lista muestra = Main.ejecutarRoundRobin(base.Encolar(), Quantum,outputTextArea);
             String resultadoSimulacion = outputTextArea.getText();
 
             // Abrir nueva ventana y pasar el resultado de la simulación
@@ -315,6 +315,8 @@ public class Ventana extends javax.swing.JFrame {
             // Intentar convertir los tiempos a enteros
             int tiempoEjecucion = Integer.parseInt(info[1]);
             int tiempoLlegada = Integer.parseInt(info[2]);
+            
+            
 
             // Crear una instancia de Proceso con los datos proporcionados
             Proceso proceso = new Proceso(info[0], tiempoEjecucion, tiempoLlegada);
