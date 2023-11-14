@@ -5,6 +5,8 @@
  */
 package ProyectoEDA;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Usuario
@@ -16,6 +18,14 @@ public class VentProces extends javax.swing.JFrame {
      */
     public VentProces() {
         initComponents();
+        DefaultTableModel modelo2 = new DefaultTableModel();
+        modelo2.addColumn("Proceso");
+        modelo2.addColumn("Tiempo de ejecución");
+        modelo2.addColumn("Tiempo de llegada");
+        modelo2.addColumn("Tiempo de comienzo");
+        modelo2.addColumn("Tiempo de finalización");
+        this.InfoFinal.setModel(modelo2);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -29,6 +39,9 @@ public class VentProces extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         ListaProcesos = new javax.swing.JTextField();
+        Regresar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        InfoFinal = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,28 +54,61 @@ public class VentProces extends javax.swing.JFrame {
             }
         });
 
+        Regresar.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        Regresar.setText("Regresar");
+        Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegresarActionPerformed(evt);
+            }
+        });
+
+        InfoFinal.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(InfoFinal);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(303, 303, 303))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(235, 235, 235)
-                        .addComponent(jLabel1))
+                        .addGap(399, 399, 399)
+                        .addComponent(Regresar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(ListaProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(112, Short.MAX_VALUE))
+                        .addGap(36, 36, 36)
+                        .addComponent(ListaProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 866, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addComponent(ListaProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ListaProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Regresar)
+                .addContainerGap())
         );
 
         pack();
@@ -72,11 +118,17 @@ public class VentProces extends javax.swing.JFrame {
         
         
 
-
-
-
         // TODO add your handling code here:
     }//GEN-LAST:event_ListaProcesosActionPerformed
+
+    private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed
+        
+        Ventana ven = new Ventana();
+        ven.setVisible(true);
+        this.setVisible(false);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,7 +166,10 @@ public class VentProces extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable InfoFinal;
     private javax.swing.JTextField ListaProcesos;
+    private javax.swing.JButton Regresar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
