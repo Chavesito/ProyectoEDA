@@ -9,6 +9,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -16,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana extends javax.swing.JFrame {
     DefaultTableModel modelo;
-    Lista base = new Lista();
+    public Lista base = new Lista();
     
     /**
      * Creates new form Ventana
@@ -259,25 +260,26 @@ public class Ventana extends javax.swing.JFrame {
 
     private void SimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulacionActionPerformed
         String seleccion = (String) Algoritmos.getSelectedItem();
+        JTextArea outputTextArea = new JTextArea();
         if("RoundRobin".equals(seleccion))
         {
             
-            Main.ejecutarRoundRobin(base.Encolar(), 3);
+            Main.ejecutarRoundRobin(base.Encolar(), 3,outputTextArea);
+            String resultadoSimulacion = outputTextArea.getText();
+
+            // Abrir nueva ventana y pasar el resultado de la simulación
+            
+            
         }
         else if("ShortestJobFirst".equals(seleccion))
         {
-            Main.ejecutarSJF(base);
+            Main.ejecutarSJF(base,outputTextArea);
             
         }
+            VentProces nuevaVentana = new VentProces(outputTextArea.getText());
+            nuevaVentana.setVisible(true);
+            this.setVisible(false);
         
-        //Abrir nueva ventana
-        VentProces ven = new VentProces();
-        ven.setVisible(true);
-        this.setVisible(false);
-  
-        
-        
-
         // TODO add your handling code here:
     }//GEN-LAST:event_SimulacionActionPerformed
 
