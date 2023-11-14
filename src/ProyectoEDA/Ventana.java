@@ -263,7 +263,7 @@ public class Ventana extends javax.swing.JFrame {
         JTextArea outputTextArea = new JTextArea();
         if("RoundRobin".equals(seleccion))
         {
-            
+            base.ordenarPorTiempoLlegada();
             Main.ejecutarRoundRobin(base.Encolar(), 3,outputTextArea);
             String resultadoSimulacion = outputTextArea.getText();
 

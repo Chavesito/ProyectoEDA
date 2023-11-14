@@ -32,6 +32,17 @@ public class Cola {
             fin = nuevoNodo;
         }
     }
+    
+    public void encolarAlFrente(Proceso proceso) {
+    Nodo nuevoNodo = new Nodo(proceso);
+    if (estaVacia()) {
+        frente = nuevoNodo;
+        fin = nuevoNodo;
+    } else {
+        nuevoNodo.setSiguiente(frente);
+        frente = nuevoNodo;
+    }
+}
 
     public Proceso desencolar() {
         if (estaVacia()) {

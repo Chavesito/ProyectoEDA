@@ -33,39 +33,41 @@ public class Main {
                 } else {
                     System.out.println(procesoActual.getNombre() + " ha terminado su ejecución.");
                 }
+                tiempo = tiempo + tiempoEjecucion;
             } else {
-                procesos.encolar(procesoActual);
+                procesos.encolarAlFrente(procesoActual);
+                tiempo++;
             }
 
-            tiempo = tiempo + tiempoEjecucion;
+            
         }
     }
     
     public static void ejecutarSJF(Lista lista, JTextArea outputTextArea) {
-        int tiempo = 0;
-        while (!lista.estaVacia()) {
-            Proceso procesoActual = lista.buscarProcesoMenorTiempoRestante(tiempo);
+    int tiempo = 0;
+    while (!lista.estaVacia()) {
+        Proceso procesoActual = lista.buscarProcesoMenorTiempoRestante(tiempo);
 
-            if (procesoActual.getTiempoLlegada() <= tiempo) {
-                if (procesoActual.getTiempoRestante() != 0) {
-                    procesoActual.disminuirTiempoRestante(1);
-                    String mensaje = "Ejecutando " + procesoActual.getNombre() + " en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
-
-                    if (outputTextArea != null) {
-                        outputTextArea.append(mensaje + "\n");
-                    }
-
-                    tiempo++;
-                } else {
-                    lista.eliminarProceso(procesoActual.getNombre());
-                }
-            } else {
-                String mensaje = "No hay proceso a ejecutar en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
+        if (procesoActual.getTiempoLlegada() <= tiempo) {
+            if (procesoActual.getTiempoRestante() != 0) {
+                procesoActual.disminuirTiempoRestante(1);
+                String mensaje = "Ejecutando " + procesoActual.getNombre() + " en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
+                
                 if (outputTextArea != null) {
                     outputTextArea.append(mensaje + "\n");
                 }
+                
                 tiempo++;
+            } else {
+                lista.eliminarProceso(procesoActual.getNombre());
             }
+        } else {
+            String mensaje = "No hay proceso a ejecutar en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
+            if (outputTextArea != null) {
+                outputTextArea.append(mensaje + "\n");
+            }
+            tiempo++;
         }
     }
+}
 }
