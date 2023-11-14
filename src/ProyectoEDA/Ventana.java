@@ -277,9 +277,11 @@ public class Ventana extends javax.swing.JFrame {
     private void SimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulacionActionPerformed
         String seleccion = (String) Algoritmos.getSelectedItem();
         JTextArea outputTextArea = new JTextArea();
-        int Quantum = Integer.parseInt(CQuantum.getText());
+        
         if("RoundRobin".equals(seleccion))
         {
+            
+            int Quantum = Integer.parseInt(CQuantum.getText());
             base.ordenarPorTiempoLlegada();
             Lista muestra = Main.ejecutarRoundRobin(base.Encolar(), Quantum,outputTextArea);
             String resultadoSimulacion = outputTextArea.getText();
