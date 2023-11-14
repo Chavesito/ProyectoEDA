@@ -15,14 +15,17 @@ import javax.swing.JTextArea;
  * @author Usuario
  */
 public class VentProces extends javax.swing.JFrame {
+    private DefaultTableModel modeloTabla;
     private String resultadoSimulacion;
+    private Lista muestra;
 
     /**
      * Creates new form VentProces
      */
-    public VentProces(String resultadoSimulacion) {
+    public VentProces(String resultadoSimulacion, Lista muestra) {
         initComponents();
         this.resultadoSimulacion = resultadoSimulacion;
+        modeloTabla = (DefaultTableModel) InfoFinal.getModel();
         DefaultTableModel modelo2 = new DefaultTableModel();
         modelo2.addColumn("Proceso");
         modelo2.addColumn("Tiempo de ejecución");
@@ -32,6 +35,13 @@ public class VentProces extends javax.swing.JFrame {
         this.InfoFinal.setModel(modelo2);
         this.setLocationRelativeTo(null);
         jTextArea1.setText(resultadoSimulacion);
+        // Llamar a actualizarTabla después de configurar el modelo
+        Nodo nodoActual = muestra.getPrimero();
+        while(nodoActual != null){
+            Proceso proceso = nodoActual.getProceso();
+            modelo2.addRow(new Object[]{proceso.getNombre(), proceso.getTiempoEjecucion(), proceso.getTiempoLlegada(), proceso.getTiempoInicio(), proceso.getTiempoSalida()});
+            nodoActual = nodoActual.getSiguiente();
+        }
     }
     
 
@@ -129,7 +139,7 @@ public class VentProces extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_RegresarActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */

@@ -11,9 +11,9 @@ import javax.swing.JTextArea;
  */
 public class Main {
    
-    public static void ejecutarRoundRobin(Cola procesos, int quantum, JTextArea outputTextArea) {
+    public static Lista ejecutarRoundRobin(Cola procesos, int quantum, JTextArea outputTextArea) {
         int tiempo = 0;
-
+        Lista lista = new Lista();
         while (!procesos.estaVacia()) {
             Proceso procesoActual = (Proceso) procesos.desencolar();
             int tiempoEjecucion = Math.min(quantum, procesoActual.getTiempoRestante());
@@ -25,6 +25,11 @@ public class Main {
                 if (outputTextArea != null) {
                     outputTextArea.append(mensaje + "\n");
                 }
+                
+                if (procesoActual.getTiempoInicio() == -1) {
+                procesoActual.setTiempoInicio(tiempo);
+                }
+
 
                 procesoActual.disminuirTiempoRestante(tiempoEjecucion);
 
@@ -32,42 +37,51 @@ public class Main {
                     procesos.encolar(procesoActual);
                 } else {
                     System.out.println(procesoActual.getNombre() + " ha terminado su ejecución.");
+                    procesoActual.setTiempoSalida(tiempo);
+                    lista.agregarAlFinal(procesoActual);
                 }
                 tiempo = tiempo + tiempoEjecucion;
             } else {
                 procesos.encolarAlFrente(procesoActual);
                 tiempo++;
             }
-
-            
         }
+        return lista;
     }
     
-    public static void ejecutarSJF(Lista lista, JTextArea outputTextArea) {
-    int tiempo = 0;
-    while (!lista.estaVacia()) {
-        Proceso procesoActual = lista.buscarProcesoMenorTiempoRestante(tiempo);
+    public static Lista ejecutarSJF(Lista lista, JTextArea outputTextArea) {
+        int tiempo = 0;
+        Lista listab = new Lista();
+        while (!lista.estaVacia()) {
+            Proceso procesoActual = lista.buscarProcesoMenorTiempoRestante(tiempo);
 
-        if (procesoActual.getTiempoLlegada() <= tiempo) {
-            if (procesoActual.getTiempoRestante() != 0) {
-                procesoActual.disminuirTiempoRestante(1);
-                String mensaje = "Ejecutando " + procesoActual.getNombre() + " en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
-                
+            if (procesoActual.getTiempoLlegada() <= tiempo) {
+                if (procesoActual.getTiempoRestante() != 0) {
+                    procesoActual.disminuirTiempoRestante(1);
+                    String mensaje = "Ejecutando " + procesoActual.getNombre() + " en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
+
+                    if (outputTextArea != null) {
+                        outputTextArea.append(mensaje + "\n");
+                    }
+                    
+                    if (procesoActual.getTiempoInicio() == -1) {
+                        procesoActual.setTiempoInicio(tiempo);
+                    }
+
+                    tiempo++;
+                } else {
+                    procesoActual.setTiempoSalida(tiempo);
+                    listab.agregarAlFinal(procesoActual);
+                    lista.eliminarProceso(procesoActual.getNombre());
+                }
+            } else {
+                String mensaje = "No hay proceso a ejecutar en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
                 if (outputTextArea != null) {
                     outputTextArea.append(mensaje + "\n");
                 }
-                
                 tiempo++;
-            } else {
-                lista.eliminarProceso(procesoActual.getNombre());
             }
-        } else {
-            String mensaje = "No hay proceso a ejecutar en el tiempo " + tiempo + " tiempo restante:" + procesoActual.getTiempoRestante();
-            if (outputTextArea != null) {
-                outputTextArea.append(mensaje + "\n");
-            }
-            tiempo++;
         }
+        return listab;
     }
-}
 }

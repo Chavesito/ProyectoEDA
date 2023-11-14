@@ -19,6 +19,10 @@ public class Lista {
     public boolean estaVacia() {
         return cabeza == null;
     }
+    
+    public Nodo getPrimero() {
+        return cabeza;
+    }
 
     public void agregarAlFinal(Proceso proceso) {
         Nodo nuevoNodo = new Nodo(proceso);

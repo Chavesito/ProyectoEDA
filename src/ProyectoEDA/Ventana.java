@@ -30,8 +30,6 @@ public class Ventana extends javax.swing.JFrame {
         modelo.addColumn("Proceso");
         modelo.addColumn("Tiempo de ejecución");
         modelo.addColumn("Tiempo de llegada");
-        modelo.addColumn("Tiempo de comienzo");
-        modelo.addColumn("Tiempo de finalización");
         this.TInfo.setModel(modelo);
         this.setLocationRelativeTo(null);
         
@@ -261,24 +259,30 @@ public class Ventana extends javax.swing.JFrame {
     private void SimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulacionActionPerformed
         String seleccion = (String) Algoritmos.getSelectedItem();
         JTextArea outputTextArea = new JTextArea();
+        
         if("RoundRobin".equals(seleccion))
         {
             base.ordenarPorTiempoLlegada();
-            Main.ejecutarRoundRobin(base.Encolar(), 3,outputTextArea);
+            Lista muestra = Main.ejecutarRoundRobin(base.Encolar(), 3,outputTextArea);
             String resultadoSimulacion = outputTextArea.getText();
 
             // Abrir nueva ventana y pasar el resultado de la simulación
+            VentProces nuevaVentana = new VentProces(resultadoSimulacion,muestra);
+            nuevaVentana.setVisible(true);
+            this.setVisible(false);
             
             
         }
         else if("ShortestJobFirst".equals(seleccion))
         {
-            Main.ejecutarSJF(base,outputTextArea);
-            
-        }
-            VentProces nuevaVentana = new VentProces(outputTextArea.getText());
+            Lista muestra = Main.ejecutarSJF(base,outputTextArea);
+            VentProces nuevaVentana = new VentProces(outputTextArea.getText(),muestra);
             nuevaVentana.setVisible(true);
             this.setVisible(false);
+            
+        }
+            
+            
         
         // TODO add your handling code here:
     }//GEN-LAST:event_SimulacionActionPerformed
